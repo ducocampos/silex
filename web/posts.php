@@ -10,7 +10,7 @@ $posts->get("/", function() use($posts1) {
 		$teste .= "Post: " . "<a href='/posts/{$key}'>{$key}</a>" . "<br> " . "Conteúdo: " . $value . "<br><br>";
 		}	
 
-	return $teste;
+	return new Response($teste, 200);
 });
 
 return $posts;
