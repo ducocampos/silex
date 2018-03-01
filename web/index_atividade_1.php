@@ -8,7 +8,7 @@ $app = new Silex\Application();
 
 $app['debug'] = true;
 
-$posts1 = array(
+$posts = array(
 	1 => 'Esse é o post número 1.', 
 	2 => 'Esse é o post número 2.', 
 	3 => 'Esse é o post número 3.', 
@@ -21,7 +21,13 @@ $posts1 = array(
 	10 => 'Esse é o post número 10.',
 );
 
-$app->mount("/", include 'posts.php');
-$app->mount("/posts", include 'posts1.php');
+$app->get('/posts/{id}', function($id) use($posts) {
+	
+	if(!isset($posts[$id]))
+		return new Response('Post não encontrado. Favor verificar se o número do mesmo está correto.',404);
+	
+	return new Response('Post id: ' . $id . '<br>' . 'Conteúdo: ' . $posts[$id], 200);
+
+});
 
 $app->run();
