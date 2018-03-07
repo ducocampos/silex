@@ -1,6 +1,8 @@
 {
     "require": {
-        "silex/silex": "~2.0"
+        "silex/silex": "~2.0",
+        "twig/twig": "^2.0",
+        "symfony/twig-bridge": "^3.4"
     },
     "autoload": {
     	"psr-4": {"estudos\\": "web/"}
