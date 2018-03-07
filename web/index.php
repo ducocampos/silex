@@ -23,7 +23,18 @@ $app['posts'] = array(
 
 $posts1 = $app['posts'];
 
-$app->mount("/", include 'posts.php');
-$app->mount("/posts", include 'posts1.php');
+$app->register(new Silex\Provider\TwigServiceProvider(), array(
+	'twig.path' => __DIR__ . '/../views',
+));
+
+$app->get('/', function() use($app, $posts1) {
+	return $app['twig']->render('posts.twig', array('posts'=>$posts1));
+})
+	->bind('index');
+
+$app->get('/posts/{id}', function($id) use($app, $posts1) {
+	return $app['twig']->render('posts1.twig', array('posts'=>array($id=>$posts1[$id])));
+})
+	->bind('links');
 
 $app->run();
