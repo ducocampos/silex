@@ -1,0 +1,12 @@
+{% extends "layout.twig" %}
+
+{% block conteudo %}
+
+	{% for key, value in posts %}
+
+		Post: <a href='{{ path('links', {id: key}) }}'>{{key}}</a><br>
+		Conteúdo: {{value}}<br>
+
+	{% endfor %}
+
+{% endblock %}
