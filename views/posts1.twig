@@ -1,12 +1,26 @@
 {% extends "layout.twig" %}
 
+{% block titulo %}
+	<blockquote class="blockquote text-center">
+		<h2>Detalhes do post</h2>
+	</blockquote>
+	
+{% endblock %}
+
 {% block conteudo %}
 
 	{% for key, value in posts %}
 
-		Post id: {{key}}<br>
-		Conteúdo: {{value}}<br>
-		<a href="{{ path('index')}}">Voltar</a>
+		<div class="card">
+			<div class="card-header">
+				Post {{ key }}
+			</div>
+			<div class="card-body">
+				{{ value }}<br><br>
+				<a href="{{ path('index') }}" class="btn btn-outline-primary" role="button">Voltar</a>
+			</div>
+		</div>
+		<br>
 
 	{% endfor %}
 

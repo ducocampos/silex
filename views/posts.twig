@@ -1,11 +1,26 @@
 {% extends "layout.twig" %}
 
+{% block titulo %}
+
+	<blockquote class="blockquote text-center">
+		<h2>Lista de posts</h2>
+	</blockquote>
+
+{% endblock %}
+
 {% block conteudo %}
 
 	{% for key, value in posts %}
 
-		Post: <a href='{{ path('links', {id: key}) }}'>{{key}}</a><br>
-		Conteúdo: {{value}}<br>
+		<div class="card">
+			<div class="card-header">
+				Post <a href='{{ path('links', { id: key }) }}' class="badge badge-pill badge-dark">{{ key }}</a><br>
+			</div>
+			<div class="card-body">
+				{{ value }}
+			</div>
+		</div>
+		<br>
 
 	{% endfor %}
 
