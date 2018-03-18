@@ -66,7 +66,7 @@ $em = EntityManager::create(
         'host'    => '',
         'port'    => '3306',
         'user'    => 'eduardo',
-        'password'  => 'teste',
+        'password'  => 'ressaca',
         'dbname'  => 'silex',
     ),
     $config,

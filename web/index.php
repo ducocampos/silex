@@ -41,8 +41,13 @@ $app->get('/', function() use($app, $em) {
 })
 	->bind('index');
 
-$app->get('/posts/{id}', function($id) use($app, $posts1) {
-	return $app['twig']->render('posts1.twig', array('posts'=>array($id=>$posts1[$id])));
+$app->get('/posts/{id}', function($id) use($app, $em) {
+
+	$posts = $em->getRepository('Acme\Curso\Entidades\Post')->find($id);
+
+	$posts1[$posts->getId()] = $posts->getConteudo();
+	
+	return $app['twig']->render('posts1.twig', array('posts1'=>$posts1));
 })
 	->bind('links');
 
