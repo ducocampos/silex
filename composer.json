@@ -2,9 +2,15 @@
     "require": {
         "silex/silex": "~2.0",
         "twig/twig": "^2.0",
-        "symfony/twig-bridge": "^3.4"
+        "symfony/twig-bridge": "^3.4",
+        "doctrine/dbal": "^2.5",
+        "doctrine/orm": "^2.5",
+        "gedmo/doctrine-extensions": "*"
+    },
+    "config": {
+        "bin-dir": "configs/"
     },
     "autoload": {
-    	"psr-4": {"estudos\\": "web/"}
+    	"psr-4": {"Acme\\": "src"}
     }
 }
