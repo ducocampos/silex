@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 $app = new Silex\Application();
@@ -10,30 +11,21 @@ $app['debug'] = true;
 require_once __DIR__ . '/../configs/providers.php';
 require_once __DIR__ . '/../configs/doctrine.php';
 
-// $app['posts'] = array(
-// 	1 => 'Esse é o post número 1.', 
-// 	2 => 'Esse é o post número 2.', 
-// 	3 => 'Esse é o post número 3.', 
-// 	4 => 'Esse é o post número 4.', 
-// 	5 => 'Esse é o post número 5.',
-// 	6 => 'Esse é o post número 6.',
-// 	7 => 'Esse é o post número 7.',
-// 	8 => 'Esse é o post número 8.',
-// 	9 => 'Esse é o post número 9.',
-// 	10 => 'Esse é o post número 10.',
-// );
+//Rota principal. Redireciona para a rota /posts.
+$app->get('/', function () use ($app) {
+    return $app->redirect('/posts');
+});
 
-// $posts1 = $app['posts'];
-
-
-
-$app->get('/', function() use($app, $em) {
+//Rota de listagem de posts.
+$app->get('/posts/', function() use($app, $em) {
 	
 	$posts = $em->getRepository('Acme\Curso\Entidades\Post')->findAll();
 
 		foreach ($posts as $value) {
 
-			$posts1[$value->getId()] = $value->getConteudo();
+			$posts1[$value->getId()] = array(
+				'titulo'=>$value->getTitulo(),
+			);
 
 		}
 		
@@ -41,14 +33,67 @@ $app->get('/', function() use($app, $em) {
 })
 	->bind('index');
 
-$app->get('/posts/{id}', function($id) use($app, $em) {
+//Rota de consulta de um determinado post.
+$app->get('/post/consultar/{id}', function($id) use($app, $em) {
 
 	$posts = $em->getRepository('Acme\Curso\Entidades\Post')->find($id);
 
-	$posts1[$posts->getId()] = $posts->getConteudo();
+	$posts1[$posts->getId()] = array(
+		'titulo'=>$posts->getTitulo(), 
+		'conteudo'=>$posts->getConteudo(),
+	);
 	
 	return $app['twig']->render('posts1.twig', array('posts1'=>$posts1));
 })
 	->bind('links');
+
+//Rota para a página de cadastro de um novo post.
+$app->get('/post/novo', function() use($app, $em) {
+	
+	return $app['twig']->render('cadastrar_post.twig');
+})
+	->bind('cadastrar');
+
+//Rota que persiste os dados do formulário no banco de dados.
+$app->post('/post/new', function(Silex\Application $app, Request $request) use($em) {
+	$dados = $request->request->all();
+
+	$post = new Acme\Curso\Entidades\Post;
+	$post->setTitulo($dados['titulo']);
+	$post->setConteudo($dados['conteudo']);
+
+	$em->persist($post);
+	$em->flush();
+
+	if($post->getId()) {
+		return new Response('Registro inserido com sucesso!', 200);
+	} else {
+		return new Response('Erro! Registro não inserido.', 200);
+	}
+
+})
+	->bind('cadastra_post');
+
+$app->get('/post/editar/{id}', function() use($app, $em) {
+	
+	return "Edita o post selecionado";
+})
+	->bind('editar');
+
+$app->post('/post/update/{id}', function() use($app, $em) {
+
+	//merge
+	
+	return "Cadastra novo post";
+})
+	->bind('edita_post');
+
+$app->get('/post/excluir/{id}', function() use($app, $em) {
+
+	//remove
+	
+	return "Exclui o post selecionado";
+})
+	->bind('excluir');
 
 $app->run();

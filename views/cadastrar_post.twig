@@ -1,0 +1,27 @@
+{% extends "layout.twig" %}
+
+{% block titulo %}
+
+	<blockquote class="blockquote text-center">
+		<h2>Cadastrar novo post</h2>
+	</blockquote>
+
+{% endblock %}
+
+{% block conteudo %}
+
+	<form action="{{ path('cadastra_post') }}" method="post">
+		<div class="form-group">
+			<label for="titulo">Titulo do post</label>
+			<input type="text" class="form-control" id="titulo" placeholder="Título do post" name="titulo">
+		</div>
+		<div class="form-group">
+			<label for="conteudo">Conteúdo do post</label>
+			<textarea class="form-control" id="conteudo" placeholder="Conteúdo" name="conteudo"></textarea>
+		</div>
+		<button type="submit" class="btn btn-primary">Enviar</button>
+	</form>
+	<br/>
+	<a href="{{ path('index') }}" class="btn btn-outline-primary" role="button">Voltar</a>
+
+{% endblock %}

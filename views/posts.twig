@@ -4,6 +4,10 @@
 
 	<blockquote class="blockquote text-center">
 		<h2>Lista de posts</h2>
+		<h6>
+			<a href="{{ path('cadastrar') }}">Cadastrar novo post</a>
+		</h6>
+
 	</blockquote>
 
 {% endblock %}
@@ -15,10 +19,8 @@
 
 		<div class="card">
 			<div class="card-header">
-				Post <a href='{{ path('links', { id: key }) }}' class="badge badge-pill badge-dark">{{ key }}</a><br>
-			</div>
-			<div class="card-body">
-				{{ value }}
+				Post: <a href='{{ path('links', { id: key }) }}' class="badge badge-pill badge-dark">{{ value.titulo }}</a> 
+				<br>
 			</div>
 		</div>
 		<br>
