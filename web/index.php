@@ -74,25 +74,54 @@ $app->post('/post/new', function(Silex\Application $app, Request $request) use($
 })
 	->bind('cadastra_post');
 
-$app->get('/post/editar/{id}', function() use($app, $em) {
+$app->get('/post/editar/{id}', function($id, Silex\Application $app) use($em) {
+
+	$posts = $em->getRepository('Acme\Curso\Entidades\Post')->find($id);
+
+	$posts1[$posts->getId()] = array(
+		'titulo'=>$posts->getTitulo(), 
+		'conteudo'=>$posts->getConteudo(),
+	);
 	
-	return "Edita o post selecionado";
+	return $app['twig']->render('editar_post.twig', array('posts1'=>$posts1));
 })
 	->bind('editar');
 
-$app->post('/post/update/{id}', function() use($app, $em) {
+$app->post('/post/update/{id}', function($id, Silex\Application $app, Request $request) use($em) {
+	$dados = $request->request->all();
 
-	//merge
-	
-	return "Cadastra novo post";
+	$post = new Acme\Curso\Entidades\Post;
+	$post->setId($id);
+	$post->setTitulo($dados['titulo']);
+	$post->setConteudo($dados['conteudo']);
+
+	$em->merge($post);
+	$em->flush();
+
+	if($post->getId()) {
+		return new Response('Registro atualizado com sucesso!', 200);
+	} else {
+		return new Response('Erro! Registro não atualizado.', 200);
+	}
 })
 	->bind('edita_post');
 
-$app->get('/post/excluir/{id}', function() use($app, $em) {
+$app->get('/post/excluir/{id}', function($id, Silex\Application $app) use($em) {
 
-	//remove
+	$post = $em->getRepository('Acme\Curso\Entidades\Post')->find($id);
+
+	$em->remove($post);
+	$em->flush();
+
+	$post = $em->getRepository('Acme\Curso\Entidades\Post')->find($id);
+
+	if(!$post) {
+		return "Post excluído com sucesso.";
+	} else {
+		return "Erro. Post não excluído.";
+	}
 	
-	return "Exclui o post selecionado";
+	
 })
 	->bind('excluir');
 

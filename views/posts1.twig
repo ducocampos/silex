@@ -9,11 +9,16 @@
 
 {% block conteudo %}
 
+
 	{% for key, value in posts1 %}
 
 		<div class="card">
 			<div class="card-header">
 				Post: {{ value.titulo }}
+				<div class="float-right">
+					<a href="{{ path('editar', { id: key }) }}" class="btn btn-primary btn-sm active" role="button" aria-pressed="true" >Editar</a>
+					<a href="{{ path('excluir', { id: key })}}" class="btn btn-danger btn-sm active" role="button" aria-pressed="true" >Excluir</a>
+				</div>
 			</div>
 			<div class="card-body">
 				{{ value.conteudo }}<br><br>
