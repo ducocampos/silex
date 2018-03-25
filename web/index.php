@@ -66,9 +66,9 @@ $app->post('/post/new', function(Silex\Application $app, Request $request) use($
 	$em->flush();
 
 	if($post->getId()) {
-		return new Response('Registro inserido com sucesso!', 200);
+		return $app['twig']->render('retorno.twig', array('retorno'=> array('sucess' => 'O post foi inserido com sucesso.', )));
 	} else {
-		return new Response('Erro! Registro não inserido.', 200);
+		return $app['twig']->render('retorno.twig', array('retorno'=> array('danger' => 'ERRO. O post não foi inserido.', )));
 	}
 
 })
@@ -99,9 +99,9 @@ $app->post('/post/update/{id}', function($id, Silex\Application $app, Request $r
 	$em->flush();
 
 	if($post->getId()) {
-		return new Response('Registro atualizado com sucesso!', 200);
+		return $app['twig']->render('retorno.twig', array('retorno'=> array('sucess' => 'Registro atualizado com sucesso!', )));
 	} else {
-		return new Response('Erro! Registro não atualizado.', 200);
+		return $app['twig']->render('retorno.twig', array('retorno'=> array('danger' => 'ERRO. Registro não atualizado.', )));
 	}
 })
 	->bind('edita_post');
@@ -116,13 +116,19 @@ $app->get('/post/excluir/{id}', function($id, Silex\Application $app) use($em) {
 	$post = $em->getRepository('Acme\Curso\Entidades\Post')->find($id);
 
 	if(!$post) {
-		return "Post excluído com sucesso.";
+		return $app['twig']->render('retorno.twig', array('retorno'=> array('sucess' => 'Post excluído com sucesso.', )));
 	} else {
-		return "Erro. Post não excluído.";
+		return $app['twig']->render('retorno.twig', array('retorno'=> array('danger' => 'ERRO. Post não excluído.', )));
 	}
 	
 	
 })
 	->bind('excluir');
+
+$app->get('/post/retorno', function($id, Silex\Application $app) {
+
+	
+})
+	->bind('retorno');
 
 $app->run();

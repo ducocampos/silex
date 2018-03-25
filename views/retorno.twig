@@ -1,0 +1,34 @@
+{% extends "layout.twig" %}
+
+{% block titulo %}
+
+	<blockquote class="blockquote text-center">
+		<h2>Posts</h2>
+	</blockquote>
+
+{% endblock %}
+
+{% block conteudo %}
+
+
+	{% for key, value in retorno %}
+
+		{% if key== 'sucess' %}
+			<div class="alert alert-success" role="alert">
+	  			{{ value }}
+			</div>
+
+		{% else %}
+			<div class="alert alert-danger" role="alert">
+			  	{{ value }}
+			</div>
+
+		{% endif %}
+
+
+
+	{% endfor %}
+
+	<a href="{{ path('index') }}" class="btn btn-outline-primary" role="button">Voltar</a>
+
+{% endblock %}
