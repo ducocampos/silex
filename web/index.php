@@ -74,6 +74,7 @@ $app->post('/post/new', function(Silex\Application $app, Request $request) use($
 })
 	->bind('cadastra_post');
 
+//Rota que abre o formulário de edição para um determinado post.
 $app->get('/post/editar/{id}', function($id, Silex\Application $app) use($em) {
 
 	$posts = $em->getRepository('Acme\Curso\Entidades\Post')->find($id);
@@ -87,6 +88,7 @@ $app->get('/post/editar/{id}', function($id, Silex\Application $app) use($em) {
 })
 	->bind('editar');
 
+//Rota que persiste a edição do post no banco de dados.
 $app->post('/post/update/{id}', function($id, Silex\Application $app, Request $request) use($em) {
 	$dados = $request->request->all();
 
@@ -106,6 +108,7 @@ $app->post('/post/update/{id}', function($id, Silex\Application $app, Request $r
 })
 	->bind('edita_post');
 
+//Rota que faz a exclusão de um determinado post.
 $app->get('/post/excluir/{id}', function($id, Silex\Application $app) use($em) {
 
 	$post = $em->getRepository('Acme\Curso\Entidades\Post')->find($id);
@@ -125,10 +128,10 @@ $app->get('/post/excluir/{id}', function($id, Silex\Application $app) use($em) {
 })
 	->bind('excluir');
 
+//Rota das mensagens de retorno aos usuários.
 $app->get('/post/retorno', function($id, Silex\Application $app) {
 
 	
-})
-	->bind('retorno');
+})->bind('retorno');
 
 $app->run();

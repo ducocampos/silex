@@ -5,7 +5,9 @@
         "symfony/twig-bridge": "^3.4",
         "doctrine/dbal": "^2.5",
         "doctrine/orm": "^2.5",
-        "gedmo/doctrine-extensions": "*"
+        "gedmo/doctrine-extensions": "*",
+        "symfony/security": "^3.4",
+        "symfony/serializer": "^3.4"
     },
     "config": {
         "bin-dir": "configs/"
